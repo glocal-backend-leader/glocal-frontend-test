@@ -1,0 +1,27 @@
+---
+import Input from "@components/shared/forms/Input.astro";
+import TextArea from "@components/shared/forms/TextArea.astro";
+
+const { endpoint } = Astro.props;
+---
+
+<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <Input
+        attributes={{
+            id: "u-name",
+            label: "Nombre",
+            name: "name",
+            required: "",
+            type: "text",
+            "x-model": "name",
+        }}
+    />
+    <TextArea
+        attributes={{
+            id: "u-description",
+            label: "Descripción",
+            name: "description",
+            "x-model": "description",
+        }}
+    />
+</div>

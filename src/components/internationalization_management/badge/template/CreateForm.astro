@@ -1,0 +1,66 @@
+---
+import Input from "@components/shared/forms/Input.astro";
+import Select from "@components/shared/forms/Select.astro";
+import TextArea from "@components/shared/forms/TextArea.astro";
+import { handleFind } from "@resources/index";
+import { YES_NO_OPTIONS } from "@constants/shared/index";
+
+const { endpoint } = Astro.props;
+
+const response = await handleFind(
+    `${import.meta.env.API_URL}/internationalization-management/badge/template-type`,
+);
+const template_type = response?.status === 200 ? response?.data : null;
+---
+
+<div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
+    <Input
+        attributes={{
+            id: "c-name",
+            label: "Nombre",
+            name: "name",
+            required: "",
+            type: "text",
+        }}
+    />
+    <TextArea
+        attributes={{
+            id: "c-description",
+            label: "Descripción",
+            name: "description",
+        }}
+    />
+    {
+        template_type ? (
+            <Select
+                attributes={{
+                    id: "c-template_type",
+                    label: "Tipo de plantilla",
+                    name: "template_type",
+                    options: template_type,
+                    required: "",
+                }}
+            />
+        ) : (
+            ""
+        )
+    }
+    <Input
+        attributes={{
+            accept: ".jpeg,.jpg,.png",
+            id: "c-image",
+            label: "Imagen (.JPEG, .JPG o .PNG de 500x500px hasta 1Mb)",
+            name: "image",
+            required: "",
+            type: "file",
+        }}
+    />
+    <Select
+        attributes={{
+            id: "c-status",
+            label: "Estado",
+            name: "status",
+            options: YES_NO_OPTIONS,
+        }}
+    />
+</div>

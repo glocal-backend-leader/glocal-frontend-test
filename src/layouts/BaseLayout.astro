@@ -1,0 +1,166 @@
+---
+import { ViewTransitions } from "astro:transitions";
+
+import Alert from "@components/shared/Alert.astro";
+import AppBar from "@components/layout/baseLayout/AppBar.astro";
+import Breadcrumb from "@components/layout/baseLayout/Breadcrumb.astro";
+import Desktop from "@components/layout/baseLayout/sideNav/Desktop.astro";
+import Favicon from "@components/shared/Favicon.astro";
+import MetaTags from "@components/shared/MetaTags.astro";
+import Mobile from "@components/layout/baseLayout/sideNav/Mobile.astro";
+import Spinner from "@components/shared/Spinner.astro";
+
+import "@styles/global.css";
+
+const { permissions, title = "UManizales" } = Astro.props;
+---
+
+<!doctype html>
+<html class="bg-white h-full" lang="es">
+    <head>
+        <MetaTags />
+        <title>{`${title} | ${import.meta.env.APP_NAME}`}</title>
+        <Favicon />
+        <ViewTransitions />
+    </head>
+    <body class="h-full">
+        <div x-data="{isSidebarMenuOpen: false, isLoading: false}">
+            <Mobile />
+            <Desktop />
+            <div class="lg:pl-72">
+                <AppBar title={title} />
+                <main class="py-10">
+                    <div
+                        class="px-4 sm:px-6 lg:px-8"
+                        x-data="{isCreateWindowOpen: false}"
+                    >
+                        <Breadcrumb permissions={permissions} />
+                        <div x-data="{isInfoDrawerOpen: false}">
+                            <slot />
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <Spinner />
+        <Alert />
+        <script>
+            import {
+                Alignment,
+                AutoLink,
+                BlockQuote,
+                Bold,
+                ClassicEditor,
+                Code,
+                Essentials,
+                Highlight,
+                Indent,
+                IndentBlock,
+                Italic,
+                Link,
+                List,
+                Markdown,
+                Paragraph,
+                RemoveFormat,
+                SpecialCharacters,
+                SpecialCharactersEssentials,
+                Strikethrough,
+                Subscript,
+                Superscript,
+                Underline,
+            } from "ckeditor5";
+            import "ckeditor5/ckeditor5.css";
+            import coreTranslations from "ckeditor5/translations/es.js";
+            import {
+                handleCreate,
+                handleDelete,
+                handleUpdate,
+            } from "@resources/index";
+            document.addEventListener("astro:page-load", () => {
+                const editors = document.querySelectorAll(".editor");
+                const formCreate = document.getElementById("formCreate");
+                const formDelete = document.getElementById("formDelete");
+                const formUpdate = document.getElementById("formUpdate");
+                if (formCreate) {
+                    formCreate.addEventListener("submit", handleCreate);
+                }
+                if (formDelete) {
+                    formDelete.addEventListener("submit", handleDelete);
+                }
+                if (formUpdate) {
+                    formUpdate.addEventListener("submit", handleUpdate);
+                }
+                if (editors) {
+                    const editorOptions = {
+                        link: {
+                            addTargetToExternalLinks: true,
+                        },
+                        menuBar: {
+                            isVisible: true,
+                        },
+                        plugins: [
+                            Alignment,
+                            AutoLink,
+                            BlockQuote,
+                            Bold,
+                            Code,
+                            Essentials,
+                            Highlight,
+                            Indent,
+                            IndentBlock,
+                            Italic,
+                            Link,
+                            List,
+                            Markdown,
+                            Paragraph,
+                            RemoveFormat,
+                            SpecialCharacters,
+                            SpecialCharactersEssentials,
+                            Strikethrough,
+                            Subscript,
+                            Superscript,
+                            Underline,
+                        ],
+                        /* toolbar: {
+                            items: [
+                                "removeFormat",
+                                "|",
+                                "bold",
+                                "italic",
+                                "underline",
+                                "strikethrough",
+                                "subscript",
+                                "superscript",
+                                "|",
+                                "alignment",
+                                "outdent",
+                                "indent",
+                                "-",
+                                "specialCharacters",
+                                "highlight",
+                                "code",
+                                "codeBlock",
+                                "blockQuote",
+                                "|",
+                                "bulletedList",
+                                "numberedList",
+                                "|",
+                                "link",
+                            ],
+                            shouldNotGroupWhenFull: true,
+                        }, */
+                        translations: [coreTranslations],
+                    };
+                    editors.forEach((editor) => {
+                        ClassicEditor.create(
+                            editor as HTMLElement,
+                            editorOptions,
+                        )
+                            .then((newEditor) => {})
+                            .catch((error) => console.error(error));
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

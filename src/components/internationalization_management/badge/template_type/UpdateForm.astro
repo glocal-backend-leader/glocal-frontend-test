@@ -1,0 +1,18 @@
+---
+import Input from "@components/shared/forms/Input.astro";
+
+const { endpoint } = Astro.props;
+---
+
+<div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
+    <Input
+        attributes={{
+            id: "u-name",
+            label: "Nombre",
+            name: "name",
+            required: "",
+            type: "text",
+            "x-model": "name",
+        }}
+    />
+</div>

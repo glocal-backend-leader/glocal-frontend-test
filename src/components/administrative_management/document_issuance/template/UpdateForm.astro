@@ -1,0 +1,74 @@
+---
+import Input from "@components/shared/forms/Input.astro";
+import Select from "@components/shared/forms/Select.astro";
+import TextArea from "@components/shared/forms/TextArea.astro";
+import { YES_NO_OPTIONS } from "@constants/shared";
+import { handleFind } from "@resources/index";
+
+const response = await handleFind(
+    `${import.meta.env.API_URL}/internationalization-management/badge/template-type`,
+);
+const digital_signature = response?.status === 200 ? response?.data : null;
+---
+
+<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <Input
+        attributes={{
+            id: "u-name",
+            label: "Nombre",
+            name: "name",
+            required: "",
+            type: "text",
+            "x-model": "name",
+        }}
+    />
+    <TextArea
+        attributes={{
+            id: "u-description",
+            label: "Descripción",
+            name: "description",
+            "x-model": "description",
+        }}
+    />
+    {
+        digital_signature ? (
+            <Select
+                attributes={{
+                    id: "u-digital_signature",
+                    label: "Firma digital",
+                    name: "digital_signature",
+                    options: digital_signature,
+                    required: "",
+                    "x-model": "digital_signature",
+                }}
+            />
+        ) : (
+            ""
+        )
+    }
+    <TextArea
+        attributes={{
+            id: "u-header",
+            label: "Encabezado",
+            name: "header",
+            "x-model": "header",
+        }}
+    />
+    <TextArea
+        attributes={{
+            id: "u-signature",
+            label: "Firma",
+            name: "signature",
+            "x-model": "signature",
+        }}
+    />
+    <Select
+        attributes={{
+            id: "u-status",
+            label: "Estado",
+            name: "status",
+            options: YES_NO_OPTIONS,
+            "x-model": "status",
+        }}
+    />
+</div>

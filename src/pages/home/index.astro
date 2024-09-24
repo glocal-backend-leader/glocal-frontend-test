@@ -1,0 +1,15 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+import Option from "@components/home/Option.astro";
+
+import { HOME_OPTIONS } from "@constants/home";
+---
+
+<BaseLayout title="Hola, Edwin Fernando">
+    <div
+        class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0"
+    >
+        {HOME_OPTIONS.map((homeOption) => <Option info={homeOption} />)}
+    </div>
+</BaseLayout>

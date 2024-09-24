@@ -1,0 +1,68 @@
+---
+import Input from "@components/shared/forms/Input.astro";
+import Select from "@components/shared/forms/Select.astro";
+import TextArea from "@components/shared/forms/TextArea.astro";
+import { handleFind } from "@resources/index";
+import { YES_NO_OPTIONS } from "@constants/shared";
+
+const response = await handleFind(
+    `${import.meta.env.API_URL}/internationalization-management/badge/template-type`,
+);
+const digital_signature = response?.status === 200 ? response?.data : null;
+---
+
+<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <Input
+        attributes={{
+            id: "c-name",
+            label: "Nombre",
+            name: "name",
+            required: "",
+            type: "text",
+        }}
+    />
+    <TextArea
+        attributes={{
+            id: "c-description",
+            label: "Descripción",
+            name: "description",
+        }}
+    />
+    {
+        digital_signature ? (
+            <Select
+                attributes={{
+                    id: "c-digital-signature",
+                    label: "Firma digital",
+                    name: "digital_signature",
+                    options: digital_signature,
+                    required: "",
+                }}
+            />
+        ) : (
+            ""
+        )
+    }
+    <TextArea
+        attributes={{
+            id: "c-header",
+            label: "Encabezado",
+            name: "header",
+        }}
+    />
+    <TextArea
+        attributes={{
+            id: "c-signature",
+            label: "Firma",
+            name: "signature",
+        }}
+    />
+    <Select
+        attributes={{
+            id: "c-status",
+            label: "Estado",
+            name: "status",
+            options: YES_NO_OPTIONS,
+        }}
+    />
+</div>

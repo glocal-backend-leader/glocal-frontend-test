@@ -1,0 +1,62 @@
+---
+import CreateForm from "@components/administrative_management/workflow/trigger/CreateForm.astro";
+import InfoDrawer from "@components/administrative_management/workflow/trigger/InfoDrawer.astro";
+import List from "@components/administrative_management/workflow/trigger/List.astro";
+import UpdateForm from "@components/administrative_management/workflow/trigger/UpdateForm.astro";
+
+import DeleteWindow from "@components/layout/baseLayout/DeleteWindow.astro";
+
+import BaseLayout from "@layouts/BaseLayout.astro";
+import CreateWindowLayout from "@layouts/shared/CreateWindowLayout.astro";
+import DrawerLayout from "@layouts/shared/DrawerLayout.astro";
+import UpdateWindowLayout from "@layouts/shared/UpdateWindowLayout.astro";
+
+import { validatePermission } from "@utils/permissions";
+
+const endpoint = `${import.meta.env.API_URL}/administrative-management/workflow/trigger`;
+
+const permissions = {
+    create: validatePermission(""),
+    delete: validatePermission(""),
+    read: validatePermission(""),
+    update: validatePermission(""),
+};
+---
+
+<BaseLayout permissions={permissions} title="Disparadores">
+    <div
+        x-data="{isDeleteWindowOpen: false, isInfoDrawerOpen: false, isUpdateWindowOpen: false}"
+    >
+        {
+            permissions.read ? (
+                <div x-data={`{description: '', id: '', name: '', status: ''}`}>
+                    <List endpoint={endpoint} permissions={permissions} />
+                    <DrawerLayout endpoint={endpoint}>
+                        <InfoDrawer />
+                    </DrawerLayout>
+                    {permissions.create ? (
+                        <CreateWindowLayout endpoint={endpoint}>
+                            <CreateForm />
+                        </CreateWindowLayout>
+                    ) : (
+                        ""
+                    )}
+                    {permissions.delete ? (
+                        <DeleteWindow endpoint={endpoint} />
+                    ) : (
+                        ""
+                    )}
+                    {permissions.update ? (
+                        <UpdateWindowLayout endpoint={endpoint}>
+                            <UpdateForm />
+                        </UpdateWindowLayout>
+                    ) : (
+                        ""
+                    )}
+                </div>
+            ) : (
+                ""
+            )
+        }
+    </div>
+</BaseLayout>

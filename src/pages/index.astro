@@ -1,0 +1,50 @@
+---
+import Input from "@components/shared/forms/Input.astro";
+import LoginLayout from "@layouts/LoginLayout.astro";
+---
+
+<LoginLayout title="Iniciar sesión">
+	<div class="mt-10">
+		<form class="space-y-6" method="POST">
+			<Input
+				attributes={{
+					autocomplete: "username",
+					id: "username",
+					label: "Usuario",
+					maxlength: 25,
+					minlength: 5,
+					name: "username",
+					required: "",
+					type: "text",
+				}}
+			/>
+			<Input
+				attributes={{
+					autocomplete: "current-password",
+					id: "password",
+					label: "Contraseña",
+					minlength: "7",
+					maxlength: "30",
+					name: "password",
+					required: "",
+					type: "password",
+				}}
+			/>
+			<div class="flex items-center justify-end">
+				<div class="text-sm leading-6">
+					<a
+						class="font-semibold text-emerald-950 hover:text-emerald-700"
+						href={`password/recovery`}>¿Olvidaste tu contraseña?</a
+					>
+				</div>
+			</div>
+			<div>
+				<button
+					class="flex w-full justify-center rounded-md bg-emerald-950 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-950"
+					type="submit"
+					>Entrar
+				</button>
+			</div>
+		</form>
+	</div>
+</LoginLayout>

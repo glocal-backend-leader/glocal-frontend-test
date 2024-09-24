@@ -1,0 +1,39 @@
+---
+const {
+    attributes: {
+        cols,
+        disabled,
+        id,
+        label,
+        maxlength,
+        minlength,
+        name,
+        placeholder,
+        readonly,
+        required,
+        rows,
+        size = "col-span-12",
+    },
+} = Astro.props;
+---
+
+<div class={size}>
+    <label class="block text-sm font-medium leading-6 text-gray-900" for={id}
+        >{label}</label
+    >
+    <div class="mt-2">
+        <textarea
+            class="editor block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-950 sm:text-sm sm:leading-6"
+            {cols}
+            {disabled}
+            id={id}
+            {maxlength}
+            {minlength}
+            name={name}
+            {placeholder}
+            {readonly}
+            {required}
+            {rows}
+            x-model={Astro.props.attributes["x-model"]}></textarea>
+    </div>
+</div>

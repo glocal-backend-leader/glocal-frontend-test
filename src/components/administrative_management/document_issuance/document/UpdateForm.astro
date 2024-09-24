@@ -1,0 +1,60 @@
+---
+import Input from "@components/shared/forms/Input.astro";
+import Select from "@components/shared/forms/Select.astro";
+import TextArea from "@components/shared/forms/TextArea.astro";
+import { handleFind } from "@resources/index";
+
+const { endpoint } = Astro.props;
+
+const response = await handleFind(
+    `${import.meta.env.API_URL}/internationalization-management/badge/template-type`,
+);
+const template = response?.status === 200 ? response?.data : null;
+---
+
+<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <Input
+        attributes={{
+            id: "u-name",
+            label: "Nombre",
+            name: "name",
+            required: "",
+            type: "text",
+            "x-model": "name",
+        }}
+    />
+    <Input
+        attributes={{
+            id: "u-user",
+            label: "Usuario",
+            name: "user",
+            required: "",
+            type: "text",
+            "x-model": "user",
+        }}
+    />
+    {
+        template ? (
+            <Select
+                attributes={{
+                    id: "u-template",
+                    label: "Plantilla",
+                    name: "template",
+                    options: template,
+                    required: "",
+                    "x-model": "template",
+                }}
+            />
+        ) : (
+            ""
+        )
+    }
+    <TextArea
+        attributes={{
+            id: "u-content",
+            label: "Contenido",
+            name: "content",
+            "x-model": "content",
+        }}
+    />
+</div>

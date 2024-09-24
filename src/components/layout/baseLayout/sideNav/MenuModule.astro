@@ -1,0 +1,24 @@
+---
+import { Icon } from "astro-icon/components";
+import MenuOption from "@components/layout/baseLayout/sideNav/MenuOption.astro";
+const { name, options, path } = Astro.props;
+---
+
+<li x-data="{subExpanded: false}">
+    <div>
+        <button
+            class="flex w-full items-center gap-x-3 rounded-md p-2 text-left text-sm font-semibold leading-6 text-amber-50 hover:bg-emerald-950"
+            type="button"
+            :class="subExpanded ? 'bg-emerald-950' : ''"
+            @click="subExpanded = ! subExpanded">
+            {name}
+        </button>
+        <ul class="ml-2 pb-2" x-show="subExpanded">
+            {
+                options
+                    ? options.map((option) => <MenuOption option={option} />)
+                    : null
+            }
+        </ul>
+    </div>
+</li>

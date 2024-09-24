@@ -1,0 +1,35 @@
+---
+import MenuApplicative from "@components/layout/baseLayout/sideNav/MenuApplicative.astro";
+import { Icon } from "astro-icon/components";
+
+const { pathname } = Astro.url;
+const { menu } = Astro.props;
+---
+
+<nav class="flex flex-1 flex-col" x-data={`{activeMenuItem: ''}`}>
+    <ul class="flex flex-1 flex-col gap-y-1">
+        {
+            pathname != "/home" ? (
+                <li>
+                    <a
+                        href="/home"
+                        class="flex items-center p-2 rounded-md text-sm font-semibold leading-6 text-amber-50 hover:bg-emerald-950 group"
+                    >
+                        <Icon name="home" />
+                        <span class="ms-3">Inicio</span>
+                    </a>
+                </li>
+            ) : (
+                ""
+            )
+        }
+        {
+            menu.map((applicative) => (
+                <MenuApplicative
+                    name={applicative.name}
+                    options={applicative.options}
+                />
+            ))
+        }
+    </ul>
+</nav>

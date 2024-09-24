@@ -1,0 +1,39 @@
+---
+import Input from "@components/shared/forms/Input.astro";
+import Select from "@components/shared/forms/Select.astro";
+import { handleFind } from "@resources/index";
+
+const { endpoint } = Astro.props;
+
+const response = await handleFind(
+    `${import.meta.env.API_URL}/internationalization-management/badge/template`,
+);
+const template = response?.status === 200 ? response?.data : null;
+---
+
+<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <Input
+        attributes={{
+            id: "c-user",
+            label: "Documento",
+            name: "user",
+            required: "",
+            type: "text",
+        }}
+    />
+    {
+        template ? (
+            <Select
+                attributes={{
+                    id: "c-template",
+                    label: "Plantilla",
+                    name: "template",
+                    options: template,
+                    required: "",
+                }}
+            />
+        ) : (
+            ""
+        )
+    }
+</div>

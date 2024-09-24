@@ -1,0 +1,18 @@
+---
+import { Icon } from "astro-icon/components";
+
+const {
+    option: {icon, name, path},} = Astro.props;
+---
+
+<li>
+    <a
+        class="grid grid-cols-12 w-full items-center gap-x-3 p-1 text-left text-sm font-medium leading-6 text-amber-50 hover:bg-emerald-950 bg-emerald-700 rounded-md my-1"
+        href={path}
+    >
+        <div class="col-start-1 col-span-2">
+            <Icon class="m-auto" name={icon} />
+        </div>
+        <div class="col-start-3 col-span-10">{name}</div>
+    </a>
+</li>

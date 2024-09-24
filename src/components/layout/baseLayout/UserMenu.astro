@@ -1,0 +1,43 @@
+---
+import { Icon } from "astro-icon/components";
+
+const { pathname } = Astro.url;
+---
+
+<div class="relative" x-data="{isUserMenuOpen: false}">
+    <button
+        class="-m-1.5 flex items-center p-1.5"
+        type="button"
+        @click="isUserMenuOpen = ! isUserMenuOpen"
+    >
+        <img
+            alt="Edwin Florez"
+            class="h-8 w-8 rounded-full bg-amber-50"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+        />
+        <span class="hidden lg:flex lg:items-center">
+            {
+                pathname != "/home" ? (
+                    <span class="ml-4 text-sm font-semibold leading-6">
+                        Edwin Fernando
+                    </span>
+                ) : (
+                    ""
+                )
+            }
+            <Icon
+                class="ml-2 h-5 w-5 text-gray-400"
+                name="shared/chevron-down"
+            />
+        </span>
+    </button>
+    <div
+        class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-emerald-950/5 focus:outline-none"
+        tabindex="-1"
+        x-show="isUserMenuOpen"
+        @click.outside="isUserMenuOpen = false">
+        <a class="block px-3 py-1 text-sm leading-6" href="#" tabindex="-1"
+            >Salir</a
+        >
+    </div>
+</div>

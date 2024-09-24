@@ -1,0 +1,29 @@
+---
+
+---
+
+<div
+    x-data="() => {return {
+            users: [],
+            getData() {
+                fetch('https://jsonplaceholder.typicode.com/users')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        this.users = data;
+                    });
+            },
+        };}"
+    x-init="getData()"
+>
+    USERS LIST
+    <ul>
+        <template x-for="user in users" :key="user.id">
+            <li>
+                <span class="" x-text="user.phone"></span>
+            </li>
+        </template>
+    </ul>
+</div>
+<script>
+    function createDataRetriever() {}
+</script>

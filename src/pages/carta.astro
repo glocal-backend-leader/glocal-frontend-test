@@ -1,0 +1,149 @@
+---
+import LoginLayout from "@layouts/LoginLayout.astro";
+---
+
+<LoginLayout title="Certificados">
+	<div class="mt-10">
+		<div>
+			<form action="#" class="space-y-6" method="POST">
+				<div>
+					<label
+						for="username"
+						class="block text-sm font-medium leading-6 text-gray-900"
+						>Usuario</label
+					>
+					<div class="mt-2">
+						<input
+							autocomplete="username"
+							class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-950 sm:text-sm sm:leading-6"
+							id="username"
+							maxlength="25"
+							minlength="5"
+							name="username"
+							required
+							type="text"
+						/>
+					</div>
+				</div>
+				<div>
+					<div id="editor">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						A perferendis sapiente libero sequi, error praesentium.
+						Voluptatum assumenda expedita cum quos repellendus error
+						tempore, delectus iusto quidem suscipit laborum eos
+						mollitia!
+					</div>
+				</div>
+				<div>
+					<button
+						class="flex w-full justify-center rounded-md bg-emerald-950 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-950"
+						type="submit"
+						>Generar
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</LoginLayout>
+
+<script>
+	import { jsPDF } from "jspdf";
+	import {
+		ClassicEditor,
+		Essentials,
+		Bold,
+		Italic,
+		Underline,
+		Font,
+		Paragraph,
+		Alignment,
+		Clipboard,
+		List,
+	} from "ckeditor5";
+	import "ckeditor5/ckeditor5.css";
+
+	let editor;
+	const doc = new jsPDF({
+		/* encryption: {
+			userPassword: "123456",
+			userPermissions: [],
+		}, */
+		format: "letter",
+		hotfixes: ["px_scaling"],
+		orientation: "portrait",
+		unit: "px",
+	});
+	ClassicEditor.create(document.querySelector("#editor") as HTMLElement, {
+		plugins: [
+			Essentials,
+			Bold,
+			Italic,
+			Underline,
+			Font,
+			Paragraph,
+			Alignment,
+			Clipboard,
+			List,
+		],
+		toolbar: {
+			items: [
+				"undo",
+				"redo",
+				"|",
+				"bold",
+				"italic",
+				"underline",
+				"|",
+				"alignment",
+				"|",
+				"bulletedList",
+				"numberedList",
+			],
+		},
+	})
+		.then((newEditor) => {
+			editor = newEditor;
+		})
+		.catch((error) => console.log(error));
+
+	document.querySelector("#submit").addEventListener("click", (event) => {
+		event.preventDefault();
+		const dateIssue = new Date();
+		console.log(editor.getData());
+		doc.html(
+			`
+			<div>
+				<p style="text-align:center;"><b>LA UNIVERSIDAD DE MANIZALES</b></p>
+				<p style="text-align:center;"><b>NIT. 890.806.001-7</b></p>
+				<div style="margin:50px 0 20px;text-align:center;">
+					<p><b>HACE CONSTAR</b></p>
+				</div>
+				<p style="text-align: justify;">Que la señora <b>ELIANA DEL ROSARIO HERRERA HUÉRFANO</b>, identificada con cédula de ciudadanía No. <b>52.208.862</b> expedida en Bogotá, prestó sus servicios a la Institución durante los siguientes períodos:</p>
+				<div style="margin:30px 0;text-align:justify;">${editor.getData()}</div>
+				<p>Esta constancia se entrega en Manizales, el día ${dateIssue.getDate()} del mes ${dateIssue.getMonth()} del año ${dateIssue.getFullYear()}, a solicitud de los interesados.</p>
+				<div style="margin:50px 0;text-align:center;">
+					<img style="margin:auto;" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=483951e6-00d5-4a57-9c77-473a705bd554">
+					<p style="font-size:12px;">Validar veracidad de la constancia</p>
+				</div>
+				<div style="margin-bottom:50px;">
+					<p><b>DIRECCIÓN DE DESARROLLO HUMANO</b></p>
+					<p>Universidad de Manizales</p>
+				</div>
+				<p style="font-size:12px;">Este documento ha sido generado automáticamente el día ${dateIssue.getDate()} del mes ${dateIssue.getMonth()} del año ${dateIssue.getFullYear()} a las ${dateIssue.getHours()}:${dateIssue.getMinutes()}:${dateIssue.getSeconds()} horas y solo hace referencia a la información y/o productos mencionados anteriormente.</p>
+			</div>`,
+			{
+				callback(doc) {
+					const blobUrl = doc.output("bloburi", {
+						filename: "output_document.pdf",
+					});
+					window.open(blobUrl);
+				},
+				margin: [120, 100, 120, 100],
+				width: 630,
+				windowWidth: 630,
+				x: 0,
+				y: 0,
+			},
+		);
+	});
+</script>

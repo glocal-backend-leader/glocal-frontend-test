@@ -1,0 +1,37 @@
+---
+const {
+    attributes: {
+        disabled,
+        id,
+        label,
+        name,
+        options,
+        readonly,
+        required,
+        size = "col-span-12",
+    },
+} = Astro.props;
+---
+
+<div class={size}>
+    <label class="block text-sm font-medium leading-6 text-gray-900" for={id}
+        >{label}</label
+    >
+    <div class="mt-1">
+        <select
+            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-950 sm:text-sm sm:leading-6"
+            {id}
+            {name}
+            {required}
+        >
+            <option disabled selected value="">Seleccione</option>
+            {
+                options
+                    ? options.map(({ id, name }) => (
+                          <option value={id}>{name}</option>
+                      ))
+                    : ""
+            }
+        </select>
+    </div>
+</div>

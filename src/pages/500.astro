@@ -1,0 +1,61 @@
+---
+import { ViewTransitions } from "astro:transitions";
+
+import Favicon from "@components/shared/Favicon.astro";
+import MetaTags from "@components/shared/MetaTags.astro";
+
+interface Props {
+    error: unknown;
+}
+
+const { error } = Astro.props;
+---
+
+<!doctype html>
+<html class="h-full" lang="es">
+    <head>
+        <MetaTags />
+        <title>{`Error 500 | ${import.meta.env.APP_NAME}`}</title>
+        <Favicon />
+        <ViewTransitions />
+    </head>
+    <body class="h-full">
+        <main
+            class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8"
+        >
+            <div class="text-center">
+                <p class="text-base font-semibold text-emerald-950">ERROR</p>
+                <h1
+                    class="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl"
+                >
+                    500
+                </h1>
+                <p class="mt-6 text-base leading-7 text-gray-600">
+                    {
+                        error instanceof Error
+                            ? error.message
+                            : "Error inesperado"
+                    }
+                </p>
+                <div class="my-10 flex items-center justify-center gap-x-6">
+                    <a
+                        class="rounded-md bg-emerald-950 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-950"
+                        href={`${import.meta.env.SITE}`}>Ir al inicio</a
+                    >
+                    <a
+                        class="text-sm font-semibold text-gray-900"
+                        href={`mailto:${import.meta.env.SUPPORT_EMAIL}`}
+                        >Contactar a soporte <span>&rarr;</span></a
+                    >
+                </div>
+                <div>
+                    <img
+                        alt="Universidad de Manizales"
+                        class="h-28 mx-auto w-auto"
+                        src={`${import.meta.env.BASE_URL}images/logos/umanizales.png`}
+                    />
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,45 @@
+---
+import { ViewTransitions } from "astro:transitions";
+
+import Favicon from "@components/shared/Favicon.astro";
+import Logo from "@components/layout/loginLayout/Logo.astro";
+import MetaTags from "@components/shared/MetaTags.astro";
+
+const { title = "UManizales" } = Astro.props;
+---
+
+<!doctype html>
+<html class="bg-white h-full" lang="es">
+    <head>
+        <MetaTags />
+        <title>{`${title} | ${import.meta.env.APP_NAME}`}</title>
+        <Favicon />
+        <ViewTransitions />
+    </head>
+    <body class="h-full">
+        <div class="flex min-h-full">
+            <div
+                class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24"
+            >
+                <div class="mx-auto w-full max-w-sm lg:w-96">
+                    <div>
+                        <Logo />
+                        <h2
+                            class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900"
+                        >
+                            {title}
+                        </h2>
+                    </div>
+                    <slot />
+                </div>
+            </div>
+            <div class="relative hidden w-0 flex-1 lg:block">
+                <img
+                    alt="Universidad de Manizales"
+                    class="absolute inset-0 h-full w-full object-cover"
+                    src={`${import.meta.env.BASE_URL}images/bg/umanizales.jpeg`}
+                />
+            </div>
+        </div>
+    </body>
+</html>

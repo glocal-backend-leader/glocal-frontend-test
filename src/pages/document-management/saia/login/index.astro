@@ -1,0 +1,38 @@
+---
+import CreateForm from "@components/administrative_management/workflow/flow_category/CreateForm.astro";
+import InfoDrawer from "@components/administrative_management/workflow/flow_category/InfoDrawer.astro";
+import List from "@components/administrative_management/workflow/flow_category/List.astro";
+import UpdateForm from "@components/administrative_management/workflow/flow_category/UpdateForm.astro";
+
+import DeleteWindow from "@components/layout/baseLayout/DeleteWindow.astro";
+
+import BaseLayout from "@layouts/BaseLayout.astro";
+import CreateWindowLayout from "@layouts/shared/CreateWindowLayout.astro";
+import DrawerLayout from "@layouts/shared/DrawerLayout.astro";
+import UpdateWindowLayout from "@layouts/shared/UpdateWindowLayout.astro";
+
+import { validatePermission } from "@utils/permissions";
+
+const endpoint = `${import.meta.env.API_URL}/administrative-management/workflow/flow-category`;
+
+const permissions = {
+    create: validatePermission(""),
+    delete: validatePermission(""),
+    read: validatePermission(""),
+    update: validatePermission(""),
+};
+---
+
+<BaseLayout permissions={permissions} title="Entrar">
+    <div
+        x-data="{isDeleteWindowOpen: false, isInfoDrawerOpen: false, isUpdateWindowOpen: false}"
+    >
+        {
+            permissions.read ? (
+                <div x-data={`{description: '', id: '', name: ''}`}></div>
+            ) : (
+                ""
+            )
+        }
+    </div>
+</BaseLayout>

@@ -1,0 +1,55 @@
+---
+import Input from "@components/shared/forms/Input.astro";
+import Select from "@components/shared/forms/Select.astro";
+import TextArea from "@components/shared/forms/TextArea.astro";
+import { YES_NO_OPTIONS } from "@constants/shared";
+
+const { endpoint } = Astro.props;
+---
+
+<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <Input
+        attributes={{
+            id: "c-name",
+            label: "Nombre",
+            name: "name",
+            required: "",
+            type: "text",
+        }}
+    />
+    <TextArea
+        attributes={{
+            id: "c-description",
+            label: "Descripción",
+            name: "description",
+        }}
+    />
+    <Input
+        attributes={{
+            accept: ".crt",
+            id: "c-public-key",
+            label: "Llave pública (.CRT)",
+            name: "public_key",
+            required: "",
+            type: "file",
+        }}
+    />
+    <Input
+        attributes={{
+            accept: ".key",
+            id: "c-private-key",
+            label: "Llave privada (.KEY)",
+            name: "private_key",
+            required: "",
+            type: "file",
+        }}
+    />
+    <Select
+        attributes={{
+            id: "c-status",
+            label: "Estado",
+            name: "status",
+            options: YES_NO_OPTIONS,
+        }}
+    />
+</div>
