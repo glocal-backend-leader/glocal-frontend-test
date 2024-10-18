@@ -2,11 +2,33 @@
 import CreateForm from "@components/academic_management/academic_offerings/academic_program/CreateForm.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import CreateWindowLayout from "@layouts/shared/CreateWindowLayout.astro";
+import axios from "axios";
 
+let processes = [];
 
+try {
+    const response = await axios.get(
+        "http://190.121.154.52:3000/api/v1/processes",
+    );
+    processes = response.data;
+    console.log("Procesos:", processes);
+} catch (error) {
+    console.error("Error al obtener los procesos", error);
+}
 ---
+
 <BaseLayout title="Gestor de procesos">
     <CreateWindowLayout>
         <CreateForm />
     </CreateWindowLayout>
+
+    <div x-data=`{ processes: ${JSON.stringify(processes)}}`>
+        <h1 class="text-2xl">Procesos</h1>
+        <hr>
+        <ul>
+            <template x-for="process in processes" :key="process.id">
+                <ul class="text-xl" x-text="process.name"></ul>
+            </template>
+        </ul>
+    </div>
 </BaseLayout>
